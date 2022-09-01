@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import { Task } from './Types'
+import { useTaskContext } from '../context/TaskContext'
+
+// type Props = {
+//     setTasks: React.Dispatch<React.SetStateAction<Task[]>>
+//     tasks: Task[]
+// }
  
-type Props = {
-    setTasks: React.Dispatch<React.SetStateAction<Task[]>>
-    tasks: Task[]
-}
- 
-const TaskInput: React.FC<Props> = ({ setTasks, tasks }) => {
+const TaskInput = () => {
+
+    const context = useTaskContext()
+
     const [ inputTitle, setInputTitle ] = useState<string>('')
-    const [ count, setCount ] = useState<number>(tasks.length + 1)
- 
+    const [ count, setCount ] = useState<number>(context.tasks.length + 1)
  
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputTitle(e.target.value)
@@ -24,7 +27,7 @@ const TaskInput: React.FC<Props> = ({ setTasks, tasks }) => {
             done: false
         }
          
-        setTasks([newTask, ...tasks])
+        context.setTasks([newTask, ...context.tasks])
         setInputTitle('')
  
     }

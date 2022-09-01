@@ -1,16 +1,18 @@
 import React from 'react'
 import TaskItem from './TaskItem'
 import { Task } from './Types'
+import { useTaskContext } from '../context/TaskContext';
+
+// type Props = {
+//     tasks: Task[]
+//     setTasks: React.Dispatch<React.SetStateAction<Task[]>>
+// }
  
-type Props = {
-    tasks: Task[]
-    setTasks: React.Dispatch<React.SetStateAction<Task[]>>
-}
- 
-const TaskList: React.FC<Props> = ({ tasks, setTasks }) => {
- 
+const TaskList = () => {
+    const context = useTaskContext()
+
     const handleDone = (task: Task) => {
-        setTasks(prev => prev.map(t =>
+        context.setTasks(prev => prev.map(t =>
             t.id === task.id
                 ? { ...task, done: !task.done }
                 : t
@@ -18,7 +20,7 @@ const TaskList: React.FC<Props> = ({ tasks, setTasks }) => {
     }
  
     const handleDelete = (task: Task) => {
-        setTasks(prev => prev.filter(t =>
+        context.setTasks(prev => prev.filter(t =>
             t.id !== task.id
         ))
     }
@@ -26,9 +28,9 @@ const TaskList: React.FC<Props> = ({ tasks, setTasks }) => {
     return (
         <div className="inner">
         {
-            tasks.length <= 0 ? '登録されたTODOはありません。' :
+            context.tasks.length <= 0 ? '登録されたTODOはありません。' :
             <ul className="task-list">
-            { tasks.map( task => (
+            { context.tasks.map( task => (
                 <TaskItem
                     key={task.id}
                     task={task}
