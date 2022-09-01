@@ -1,4 +1,4 @@
-import { createContext, useState, useContext,ReactNode  } from 'react'
+import { createContext, useContext,ReactNode } from 'react'
 import { Task } from '../components/Types'
 import useLocalStorage from '../hooks/useLocalStorage'
 
@@ -18,9 +18,6 @@ const defaultContextTask = [
   }
 ]
 
-
-//const TaskContext = createContext(defaultContextTask)
-
 const TaskContext = createContext({} as {
   tasks: Task[]
   setTasks:React.Dispatch<React.SetStateAction<Task[]>>
@@ -32,7 +29,6 @@ export function useTaskContext() {
 }
 
 export const TaskProvider: React.FC<Props> = (props) => {
-//  const [tasks, setTasks] = useState<Task[]>(defaultContextTask);
   const [tasks, setTasks] = useLocalStorage('todo_app',defaultContextTask)
   const { children } = props 
   const value = {tasks,setTasks}
