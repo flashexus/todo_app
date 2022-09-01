@@ -27,12 +27,10 @@ const TaskList = () => {
     
     const handleDoneFilter = (event: React.ChangeEvent<HTMLInputElement>) =>{
         event.target.checked === true ? setFilter([true, ...filter]) : setFilter(filter.filter(done => done!==true))
-        console.log(filter)
     }
 
     const handleYetFilter = (event: React.ChangeEvent<HTMLInputElement>) =>{
         event.target.checked === true ? setFilter([false, ...filter]) : setFilter(filter.filter(done => done!==false))
-        console.log(filter)
     }
 
     return (
@@ -59,7 +57,11 @@ const TaskList = () => {
         {
             context.tasks.length <= 0 ? '登録されたTODOはありません。' :
             <ul className="task-list">
-            { context.tasks.filter(task => filter.includes(task.done)).map( task => (
+            { 
+            context.tasks
+                .sort( (first:Task,second:Task) => { if(first.done===false && second.done===true){return -1} return 0})
+                .filter(task => filter.includes(task.done))
+                .map( task => (
                 <TaskItem
                     key={task.id}
                     task={task}
